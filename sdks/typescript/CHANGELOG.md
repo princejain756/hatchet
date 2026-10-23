@@ -5,6 +5,12 @@ All notable changes to Hatchet's TypeScript SDK will be documented in this chang
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.38.1] - 2026-10-23
+
+### Fixed
+
+- A durable run whose `waitFor` registration ack is still in flight is now visible to shutdown eviction: the run is marked waiting before the ack round-trip and wait registration updates its resource id without double-counting, so `exitGracefully` no longer leaves such a run to fail with `DurableListener stopped` when the listener stops. A restored invocation that re-registers under the same action key while its predecessor's shutdown eviction is in flight now gets its own eviction request, and a stale eviction ack can no longer cancel a run that is already gone.
+
 ## [1.38.0] - 2026-10-13
 
 ### Added
